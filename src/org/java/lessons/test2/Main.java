@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 /*
 *Creare infine una classe Main
@@ -39,14 +40,41 @@ public class Main {
     private static final String[] RUOLI ={"difensore","centrocampista","attaccante"};
 
 
+
     //MAIN
     public static void main(String[] args) {
-
+        Scanner scan = new Scanner(System.in);
         Squadra team= creaRoster();
+
+        System.out.print(" Inserisci il nome dell' allenatore : ");
+        String nomeManager= scan.nextLine();
+        System.out.println("Inserisci la tettica dell' allenatore : ");
+        System.out.println("1. offensiva");
+        System.out.println("2. difensiva");
+        System.out.println("3. neutra");
+        String answer= scan.nextLine();
         LocalDate dataManager=randomBirthDate(1950,35);
         int etaManager=getAgeInYears(dataManager);
-        Allenatore manager = new Allenatore("Pippo",etaManager,dataManager,"difensiva");
-        team.aggiungiManager(manager);
+        Allenatore manager;
+        switch (answer){
+            case "1":
+                manager = new Allenatore(nomeManager,etaManager,dataManager,"offensiva");
+                team.aggiungiManager(manager);
+                break;
+            case "2":
+                manager = new Allenatore(nomeManager,etaManager,dataManager,"difensiva");
+                team.aggiungiManager(manager);
+                break;
+            case "3":
+                manager = new Allenatore(nomeManager,etaManager,dataManager,"neutra");
+                team.aggiungiManager(manager);
+                break;
+            default:
+                System.out.println("hai inserito un comando non valido !");
+                break;
+        }
+
+
         team.stampaSquadra();
 
     }
