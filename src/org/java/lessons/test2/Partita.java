@@ -1,6 +1,8 @@
 package org.java.lessons.test2;
 
+import java.time.LocalDate;
 import java.util.Random;
+import java.util.Scanner;
 
 /*Implementa un metodo
 per iniziare la partita (che imposti lo stato della partita come "iniziata")
@@ -57,5 +59,32 @@ NB: non è possibile segnare un goal se la partita non è ancora iniziata!
             System.out.println(" ha segnato la squadra  "+this.awayTeam);
         }
         return retiTotali;
+    }
+
+    // simula partita
+    public void  simulaPartita(Partita game){
+        Scanner scanGame= new Scanner(System.in);
+        //PARTITA test
+        boolean iniziata=false;
+        int goals=0;
+
+        System.out.print("Vuoi iniziare la partita ? (Y/n)  ");
+        String answerGame= scanGame.nextLine();
+        if(answerGame.equalsIgnoreCase("y")){
+            iniziata=true;
+        } else if (answerGame.equalsIgnoreCase("n")) {
+            System.out.println("alla prossima ");
+        }else{
+            System.out.println("comando non valido");
+        }
+        try {
+
+            goals=game.segnaGoal(goals,iniziata);
+            goals=game.segnaGoal(goals,iniziata);
+            System.out.println("gol totali :" + goals);
+
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 }

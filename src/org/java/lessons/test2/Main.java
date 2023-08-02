@@ -44,29 +44,9 @@ public class Main {
     //MAIN
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        //PARTITA test
-        boolean iniziata=false;
-        int goals=0;
-        Arbitro arbitro= new Arbitro("Luca",22,LocalDate.now(),"capo");
+        Arbitro arbitro= new Arbitro("Luca",22, LocalDate.now(),"capo");
         Partita game= new Partita("Inter","Milan",arbitro);
-        System.out.print("Vuoi iniziare la partita ? (Y/n)  ");
-        String answerGame= scan.nextLine();
-        if(answerGame.equalsIgnoreCase("y")){
-            iniziata=true;
-        } else if (answerGame.equalsIgnoreCase("n")) {
-            System.out.println("alla prossima ");
-        }else{
-            System.out.println("comando non valido");
-        }
-        try {
-
-            goals=game.segnaGoal(goals,iniziata);
-            goals=game.segnaGoal(goals,iniziata);
-            System.out.println("gol totali :" + goals);
-
-        }catch (RuntimeException e){
-            System.out.println(e.getMessage());
-        }
+        game.simulaPartita(game);
 
 
 
