@@ -17,11 +17,11 @@ public class Squadra {
     // stampa squadra
     public void stampaSquadra(){
         System.out.println("ALLENATORE");
-        System.out.println(manager.getName()+" "+manager.getAge()+" anni "+ " tattica : "+manager.getStrategia());
+        System.out.println(manager.getName()+" "+ manager.getDataDiNascita()+" "+manager.getAge()+" anni "+ " tattica : "+manager.getStrategia());
         System.out.println("-----------------");
         System.out.println("ROSA");
         for (Giocatore g : roster){
-            System.out.println(g.getName()+" "+g.getRole()+ " " + g.getAge()+" anni");
+            System.out.println(g.getName()+" "+g.getRole()+ " " + g.getAge()+" anni" +" "+ g.getDataDiNascita()+" ");
         }
     }
     // aggiungi persona

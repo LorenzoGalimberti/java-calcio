@@ -1,13 +1,15 @@
 package org.java.lessons.test2;
 
+import java.time.LocalDate;
+
 public class Allenatore extends Persona{
     // attributo
     private String strategia;
 
     // costruttore
 
-    public Allenatore(String name, int age, String strategia) {
-        super(name, age);
+    public Allenatore(String name, int age, LocalDate dataDiNascita,String strategia) {
+        super(name, age,dataDiNascita);
         this.strategia = strategia;
     }
 

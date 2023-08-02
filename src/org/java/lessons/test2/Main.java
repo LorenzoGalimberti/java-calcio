@@ -1,5 +1,6 @@
 package org.java.lessons.test2;
-
+import java.time.Period;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -40,14 +41,35 @@ public class Main {
 
     //MAIN
     public static void main(String[] args) {
+
         Squadra team= creaRoster();
-        Allenatore manager = new Allenatore("Pippo",22,"difensiva");
+        LocalDate dataManager=randomBirthDate(1950,35);
+        int etaManager=getAgeInYears(dataManager);
+        Allenatore manager = new Allenatore("Pippo",etaManager,dataManager,"difensiva");
         team.aggiungiManager(manager);
         team.stampaSquadra();
-        //creaRoster().stampaSquadra();
+
     }
 
     // METODI
+    // random date
+    public static LocalDate randomBirthDate(int minimo,int range){
+        Random random = new Random();
+
+        int year = random.nextInt(range) + minimo; // Genera un anno casuale tra il 1990 e il 2019
+        int month =  1;    // Genera un mese casuale tra 1 e 12
+        int day = 1;      // Genera un giorno casuale tra 1 e 28 (semplificato per semplicità)
+
+        LocalDate dataCasuale = LocalDate.of(year, month, day);
+        return dataCasuale.plusDays(random.nextInt(365));
+    }
+
+    // get age in years from random date
+    public static int getAgeInYears(LocalDate dataDiNascita){
+        LocalDate dataCorrente= LocalDate.now();
+        Period period = Period.between(dataDiNascita, dataCorrente);
+        return period.getYears();
+    }
     // estrai ruolo
     public static String estraiRuolo(String[] array,int index){
         return array[index];
@@ -56,16 +78,22 @@ public class Main {
     public static String estraiGiocatore(String[] array , int index){
         return array[index];
     }
-
+    // random age
+    private static int randomPlayerAge(){
+        Random ran= new Random();
+        return  ran.nextInt(17) + 18;
+    }
     // crea roster
     public static Squadra creaRoster(){
-        // lista vuota sei giocatori
+        // lista vuota  giocatori
         List<Integer>  listaIndici = new ArrayList<>();
         Squadra team = new Squadra();
 
         // array nomi
         int counter=0;
         while(counter<11){
+            LocalDate dataPlayer= randomBirthDate(1985,20);
+            int etaPlayer=getAgeInYears(dataPlayer);
             int lunghezzaArray = NOMI_COGNOMI_GIOCATORI.length;
             int lunghezzaRuoli=RUOLI.length;
             Random ran= new Random();
@@ -73,15 +101,16 @@ public class Main {
             int numeroCasualeRuoli= ran.nextInt(lunghezzaRuoli-1);
             if(counter==0){
                 listaIndici.add(numeroCasuale);
-                Giocatore player= new Giocatore(estraiGiocatore(NOMI_COGNOMI_GIOCATORI,numeroCasuale),ran.nextInt(17) + 18,"portiere");
+
+                Giocatore player= new Giocatore(estraiGiocatore(NOMI_COGNOMI_GIOCATORI,numeroCasuale),etaPlayer,dataPlayer,"portiere");
                 team.aggiungiPersona(player);
             }else {
                 if (listaIndici.contains(numeroCasuale)){
                     counter--;
                 }else{
-                    int etaCasuale = ran.nextInt(17) + 18;
+
                     listaIndici.add(numeroCasuale);
-                    Giocatore player= new Giocatore(estraiGiocatore(NOMI_COGNOMI_GIOCATORI,numeroCasuale),etaCasuale,estraiRuolo(RUOLI,numeroCasualeRuoli));
+                    Giocatore player= new Giocatore(estraiGiocatore(NOMI_COGNOMI_GIOCATORI,numeroCasuale),etaPlayer,dataPlayer,estraiRuolo(RUOLI,numeroCasualeRuoli));
                     team.aggiungiPersona(player);
                 }
             }
