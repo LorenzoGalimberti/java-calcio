@@ -12,6 +12,11 @@ public class Allenatore extends Persona{
     }
 
     // g e s
+
+    public String getStrategia() {
+        return strategia;
+    }
+
     // METODI
     // tostring
 

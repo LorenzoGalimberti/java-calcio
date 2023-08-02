@@ -35,43 +35,59 @@ public class Main {
             "Luigi Esposito", "Domenico Vitale", "Antonio De Angelis", "Mario Barbieri", "Giovanni Marchetti",
             "Francesco Russo", "Raffaele Martini", "Federico Coppola", "Emanuele Bellini", "Alessio Ricci"
     };
-    private static final String[] RUOLI ={"portiere","difensore","centrocampista","attaccante"};
+    private static final String[] RUOLI ={"difensore","centrocampista","attaccante"};
+
+
+    //MAIN
     public static void main(String[] args) {
-        // lista vuota sei giocatori
-        List<Integer>  listaIndici = new ArrayList<>();
-        Squadra team = new Squadra();
-    // array nomi
-        int counter=0;
-        while(counter<11){
-            int lunghezzaArray = NOMI_COGNOMI_GIOCATORI.length;
-            Random ran= new Random();
-
-            int numeroCasuale = ran.nextInt(lunghezzaArray-1);
-            if (listaIndici.contains(numeroCasuale)){
-                counter--;
-            }else{
-                int etaCasuale = ran.nextInt(17) + 18;
-                System.out.println("non contiene");
-                System.out.println(numeroCasuale);
-                System.out.println(counter+1);
-                System.out.println(estraiGiocatore(NOMI_COGNOMI_GIOCATORI,numeroCasuale));
-                listaIndici.add(numeroCasuale);
-                Giocatore player= new Giocatore(estraiGiocatore(NOMI_COGNOMI_GIOCATORI,numeroCasuale),etaCasuale,"terzino",3);
-                team.aggiungiPersona(player);
-            }
-
-
-            counter++;
-        }
+        Squadra team= creaRoster();
+        Allenatore manager = new Allenatore("Pippo",22,"difensiva");
+        team.aggiungiManager(manager);
         team.stampaSquadra();
+        //creaRoster().stampaSquadra();
     }
 
     // METODI
+    // estrai ruolo
+    public static String estraiRuolo(String[] array,int index){
+        return array[index];
+    }
     //estrai giocatore
     public static String estraiGiocatore(String[] array , int index){
         return array[index];
     }
 
     // crea roster
+    public static Squadra creaRoster(){
+        // lista vuota sei giocatori
+        List<Integer>  listaIndici = new ArrayList<>();
+        Squadra team = new Squadra();
+
+        // array nomi
+        int counter=0;
+        while(counter<11){
+            int lunghezzaArray = NOMI_COGNOMI_GIOCATORI.length;
+            int lunghezzaRuoli=RUOLI.length;
+            Random ran= new Random();
+            int numeroCasuale = ran.nextInt(lunghezzaArray-1);
+            int numeroCasualeRuoli= ran.nextInt(lunghezzaRuoli-1);
+            if(counter==0){
+                listaIndici.add(numeroCasuale);
+                Giocatore player= new Giocatore(estraiGiocatore(NOMI_COGNOMI_GIOCATORI,numeroCasuale),ran.nextInt(17) + 18,"portiere");
+                team.aggiungiPersona(player);
+            }else {
+                if (listaIndici.contains(numeroCasuale)){
+                    counter--;
+                }else{
+                    int etaCasuale = ran.nextInt(17) + 18;
+                    listaIndici.add(numeroCasuale);
+                    Giocatore player= new Giocatore(estraiGiocatore(NOMI_COGNOMI_GIOCATORI,numeroCasuale),etaCasuale,estraiRuolo(RUOLI,numeroCasualeRuoli));
+                    team.aggiungiPersona(player);
+                }
+            }
+            counter++;
+        }
+        return team;
+    }
 
 }
