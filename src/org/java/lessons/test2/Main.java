@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import  java.util.HashMap;
+import  java.util.Map;
 
 /*
 *Creare infine una classe Main
@@ -14,6 +16,17 @@ prelevare un nome casuale dall’array di nomi
 generare l’età in modo casuale
 prelevare un ruolo casuale dall’array di possibili ruoli*/
 public class Main {
+    private static final Map<String, int[]> TATTICHE_FORMAZIONI = new HashMap<>();
+
+    static {
+        TATTICHE_FORMAZIONI.put("difensiva", new int[]{5, 3, 2});
+        TATTICHE_FORMAZIONI.put("offensiva", new int[]{3, 4, 3});
+        TATTICHE_FORMAZIONI.put("neutra", new int[]{4, 4, 2});
+        //TATTICHE_FORMAZIONI.put("Contropiede veloce", new int[]{4, 2, 3, 1});
+        //TATTICHE_FORMAZIONI.put("Trequartista", new int[]{4, 3, 1, 2});
+        //TATTICHE_FORMAZIONI.put("Pressing alto", new int[]{4, 1, 4, 1});
+
+    }
     private static final String[] NOMI_COGNOMI_GIOCATORI = {
             "Marco Rossi", "Alessio Bianchi", "Lorenzo Russo", "Simone Ferrara", "Andrea Martini",
             "Luca Rossetti", "Davide Fontana", "Giovanni Ricci", "Filippo Bellini", "Nicolas De Luca",
@@ -50,30 +63,43 @@ public class Main {
 
 
 
-        Squadra team= creaRoster();
+        //Squadra team= creaRoster();
 
         System.out.print(" Inserisci il nome dell' allenatore : ");
         String nomeManager= scan.nextLine();
         System.out.println("Inserisci la tettica dell' allenatore : ");
-        System.out.println("1. offensiva");
-        System.out.println("2. difensiva");
+        System.out.println("1. difensiva");
+        System.out.println("2. offensiva");
         System.out.println("3. neutra");
         String answer= scan.nextLine();
         LocalDate dataManager=randomBirthDate(1950,35);
         int etaManager=getAgeInYears(dataManager);
-        Allenatore manager;
+        Allenatore manager ;
+        Squadra team = new Squadra();
+        int[] vettoreAssociato;
+
         switch (answer){
             case "1":
-                manager = new Allenatore(nomeManager,etaManager,dataManager,"offensiva");
+                vettoreAssociato = TATTICHE_FORMAZIONI.get("difensiva");
+                manager = new Allenatore(nomeManager,etaManager,dataManager,"difensiva");
+                team= creaRoster(vettoreAssociato[0], vettoreAssociato[1], vettoreAssociato[2]);
                 team.aggiungiManager(manager);
                 break;
             case "2":
-                manager = new Allenatore(nomeManager,etaManager,dataManager,"difensiva");
+                vettoreAssociato = TATTICHE_FORMAZIONI.get("difensiva");
+
+                manager = new Allenatore(nomeManager,etaManager,dataManager,"offensiva");
+                team= creaRoster(vettoreAssociato[0], vettoreAssociato[1], vettoreAssociato[2]);
                 team.aggiungiManager(manager);
+
                 break;
             case "3":
+                vettoreAssociato = TATTICHE_FORMAZIONI.get("difensiva");
+
                 manager = new Allenatore(nomeManager,etaManager,dataManager,"neutra");
+                team= creaRoster(vettoreAssociato[0], vettoreAssociato[1], vettoreAssociato[2]);
                 team.aggiungiManager(manager);
+
                 break;
             default:
                 System.out.println("hai inserito un comando non valido !");
@@ -154,5 +180,48 @@ public class Main {
         }
         return team;
     }
+
+    public static Squadra creaRoster(int difensori , int centrocampisti, int attaccanti){
+        // creazione Squadra
+        List<Integer>  listaIndici = new ArrayList<>(); // lista controllo nomi gia presenti
+        Squadra team = new Squadra();
+        // creazione portiere
+        creaFormazione("portiere",1,listaIndici,team);
+        // creazione difensori
+        creaFormazione("difensore",difensori,listaIndici,team);
+        // creazione centrocampiati
+        creaFormazione("centrocampista",centrocampisti,listaIndici,team);
+        // creazione attacanti
+        creaFormazione("attaccante",attaccanti,listaIndici,team);
+
+
+        //return
+        return team;
+    }
+
+    private static void creaFormazione(String ruolo, int limit , List<Integer> listIndex,Squadra squadra){
+        for (int i = 0; i < limit ; i++) {
+            LocalDate dataPlayer= randomBirthDate(1985,20);
+            int etaPlayer=getAgeInYears(dataPlayer);
+            int lunghezzaArray = NOMI_COGNOMI_GIOCATORI.length;
+            //int lunghezzaRuoli=RUOLI.length;
+            Random ran= new Random();
+            int ranNum;
+            do {
+                ranNum = ran.nextInt(lunghezzaArray);
+            } while (listIndex.contains(ranNum));
+
+            listIndex.add(ranNum);
+
+            Giocatore player = new Giocatore(
+                    estraiGiocatore(NOMI_COGNOMI_GIOCATORI, ranNum),
+                    etaPlayer,
+                    dataPlayer,
+                    ruolo
+            );
+            squadra.aggiungiPersona(player);
+        }
+    }
+
 
 }

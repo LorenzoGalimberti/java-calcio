@@ -1,0 +1,24 @@
+//  AGGIUNTA BONUS
+
+// 1. POSSIBILITA' DI FORMAZIONE CON UNA MAPPA
+        . creazione mappa test
+        .caricamento in ordine ?
+            - si --> estraiamo in ordine prima i difensori poi i centrocampisti ed infine l' attaccante (da fare)
+            - no --> estraiamo casualmente ed aumentiamo i contatori in base a cosa esce ed aggiorniamo la lista dei ruoloi (troppo lungo)
+        . impostare 3 cicli ( magari creare un metodo nella classe squadra ?)
+        . sampare la formazione
+        . inserire varie tattiche / formazioni
+
+
+// 2. DISPOSIZIONE DELLA FORMAZIONE STILE CALCIO
+    . definire la larghezza del campo -->  in base al massimo delle formazioni
+    . la righa con piu giocatori n-1 con estremi  gli altri n+1 con vuoto all' inizio
+
+//3. PARTITA A TERMINALE
+
+
+// 4. REALIZZAZIONE DELLA PARTITA nel caso
+    . collegare foglio html
+    . realizzazione del campo e dei nomi (taglio il nome) (mappa precedente)
+    . pulsante fai segnare
+    .aggiorna html con risultati
